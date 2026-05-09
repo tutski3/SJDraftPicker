@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Samurai Japan Elites Dota Tournament</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --header: #080e1f;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --muted: #a7b4ca;
+      --text: #f8fafc;
+      --accent: #ef4444;
+      --accent-dark: #b91c1c;
+      --accent-2: #22c55e;
+      --border: #334155;
+      --warning: #f59e0b;
+      --card: #020617;
+      --blue: #60a5fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: radial-gradient(circle at top, #1f2937, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      padding: 20px 24px 22px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, var(--header), #0f172a);
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 3vw, 36px);
+      letter-spacing: 0.4px;
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .github-link {
+      display: inline-flex;
+      margin-top: 10px;
+      color: #bfdbfe;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid rgba(96, 165, 250, 0.35);
+      border-radius: 999px;
+      padding: 7px 12px;
+      background: rgba(37, 99, 235, 0.12);
+    }
+
+    .github-link:hover {
+      background: rgba(37, 99, 235, 0.22);
+    }
+
+    main {
+      width: min(1400px, 96%);
+      margin: 24px auto 60px;
+      display: grid;
+      gap: 24px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 360px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .panel {
+      background: rgba(15, 23, 42, 0.94);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      min-width: 0;
+    }
+
+    h2, h3 {
+      margin-top: 0;
+      line-height: 1.2;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: #bfdbfe;
+      font-size: 13px;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 11px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: #020617;
+      color: var(--text);
+      font-size: 14px;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.16);
+    }
+
+    .form-row {
+      margin-bottom: 14px;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      background: var(--accent);
+      font-weight: 700;
+      transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+      white-space: nowrap;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      opacity: 0.94;
+    }
+
+    button.secondary {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+    }
+
+    button.success {
+      background: var(--accent-2);
+      color: #052e16;
+    }
+
+    button.warning {
+      background: var(--warning);
+      color: #451a03;
+    }
+
+    button.small {
+      padding: 8px 10px;
+      font-size: 12px;
+      width: auto;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .actions button {
+      flex: 1 1 120px;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    th {
+      background: var(--panel-2);
+      color: #dbeafe;
+      position: static;
+      top: auto;
+      z-index: auto;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .player-action-cell {
+      min-width: 230px;
+    }
+
+    .player-action-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .player-action-buttons button {
+      width: 100%;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #1e293b;
+      color: #cbd5e1;
+      white-space: nowrap;
+    }
+
+    .captain-badge {
+      background: rgba(245, 158, 11, 0.16);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .role-badge {
+      background: rgba(59, 130, 246, 0.16);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+    }
+
+    .rank-badge {
+      background: rgba(34, 197, 94, 0.14);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .notice {
+      background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.28);
+      color: #bfdbfe;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      margin-top: 12px;
+    }
+
+    .draft-layout {
+      display: grid;
+      grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .pool, .captain-grid {
+      min-height: 300px;
+    }
+
+    .captain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 16px;
+    }
+
+    .captain-column {
+      background: rgba(2, 6, 23, 0.78);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      min-height: 330px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .captain-column.drag-over, .player-pool.drag-over {
+      border-color: var(--accent-2);
+      box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.18) inset;
+    }
+
+    .captain-head {
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .captain-head strong {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .team-list, .player-pool {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 220px;
+    }
+
+    .player-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 11px;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .player-card:active {
+      cursor: grabbing;
+    }
+
+    .player-card.dragging {
+      opacity: 0.45;
+      border-color: var(--accent);
+    }
+
+    .player-name {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .player-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .empty-state {
+      border: 1px dashed var(--border);
+      border-radius: 13px;
+      color: var(--muted);
+      padding: 16px;
+      text-align: center;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .stat {
+      background: rgba(2, 6, 23, 0.72);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .stat span {
+      display: block;
+      color: #93c5fd;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .stat strong {
+      font-size: 24px;
+    }
+
+    .csv-panel {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .danger-text {
+      color: #fca5a5;
+    }
+
+    @media (max-width: 980px) {
+      .grid, .draft-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Samurai Japan Elites Dota Tournament</h1>
+    <p>Admin dashboard for player registration, captain tagging, and drag-and-drop team picking.</p>
+    <a class="github-link" href="https://github.com/tutski3" target="_blank" rel="noopener noreferrer">github.com/tutski3</a>
+  </header>
+
+  <main>
+    <section class="summary">
+      <div class="stat">
+        <span>Total Players</span>
+        <strong id="totalPlayers">0</strong>
+      </div>
+      <div class="stat">
+        <span>Captains</span>
+        <strong id="totalCaptains">0</strong>
+      </div>
+      <div class="stat">
+        <span>Available Pool</span>
+        <strong id="totalPool">0</strong>
+      </div>
+      <div class="stat">
+        <span>Assigned Players</span>
+        <strong id="totalAssigned">0</strong>
+      </div>
+    </section>
+
+    <section class="grid">
+      <aside class="panel">
+        <h2>Player Registration</h2>
+        <p class="hint">Add players with their Dota 2 role and rank. The admin can mark a player as captain from the player list.</p>
+
+        <form id="playerForm">
+          <div class="form-row">
+            <label for="playerName">Player Name</label>
+            <input id="playerName" required placeholder="Example: Miracle" />
+          </div>
+
+          <div class="form-row">
+            <label for="playerRole">Role</label>
+            <select id="playerRole" required>
+              <option value="Carry">Carry / Position 1</option>
+              <option value="Midlaner">Midlaner / Position 2</option>
+              <option value="Offlaner">Offlaner / Position 3</option>
+              <option value="Soft Support">Soft Support / Position 4</option>
+              <option value="Hard Support">Hard Support / Position 5</option>
+              <option value="Flexible">Flexible</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="playerRank">Rank</label>
+            <select id="playerRank" required>
+              <option value="Herald">Herald</option>
+              <option value="Guardian">Guardian</option>
+              <option value="Crusader">Crusader</option>
+              <option value="Archon">Archon</option>
+              <option value="Legend">Legend</option>
+              <option value="Ancient">Ancient</option>
+              <option value="Divine">Divine</option>
+              <option value="Immortal">Immortal</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="isCaptain">Admin Tag</label>
+            <select id="isCaptain">
+              <option value="false">Player</option>
+              <option value="true">Captain</option>
+            </select>
+          </div>
+
+          <button type="submit">Register Player</button>
+        </form>
+
+        <div class="csv-panel">
+          <h3 style="margin: 8px 0 0;">CSV Tools</h3>
+          <input id="csvFileInput" class="hidden" type="file" accept=".csv,text/csv" />
+          <button class="warning" id="downloadTemplateBtn" type="button">Download CSV Template</button>
+          <button class="success" id="importCsvBtn" type="button">Import Players CSV</button>
+          <button class="secondary" id="exportCsvBtn" type="button">Export Current Players CSV</button>
+          <div class="notice">
+            CSV columns: <strong>name, role, rank, isCaptain</strong>. Use true or false for captain tagging.
+          </div>
+        </div>
+
+        <hr style="border-color: var(--border); margin: 20px 0;" />
+
+        <div class="actions">
+          <button class="secondary" id="loadSampleBtn" type="button">Load Sample</button>
+          <button class="secondary" id="resetTeamsBtn" type="button">Reset Teams</button>
+          <button class="secondary" id="clearAllBtn" type="button">Clear All</button>
+        </div>
+      </aside>
+
+      <section class="panel">
+        <div class="section-title">
+          <div>
+            <h2>Registered Players</h2>
+            <p class="hint">Admin can choose, remove, or delete captains here. The table header bug has been fixed so rows no longer overlap.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Player</th>
+                <th>Role</th>
+                <th>Rank</th>
+                <th>Status</th>
+                <th>Admin Action</th>
+              </tr>
+            </thead>
+            <tbody id="playersTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>Team Pickings</h2>
+          <p class="hint">Drag player cards from the Players Pool into any captain column. Drag them back to the pool to unassign.</p>
+        </div>
+      </div>
+
+      <div class="draft-layout">
+        <div class="panel pool" style="padding: 14px;">
+          <h3>Players Pool</h3>
+          <div id="playerPool" class="player-pool" data-drop-zone="pool"></div>
+        </div>
+
+        <div>
+          <div class="section-title" style="margin-bottom: 10px;">
+            <h3 style="margin: 0;">Captains</h3>
+            <div class="actions" style="justify-content: flex-end;">
+              <button class="secondary small" id="shuffleCaptainsBtn" type="button">Shuffle Captain Order</button>
+            </div>
+          </div>
+          <div id="captainGrid" class="captain-grid"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-title">
+        <div>
+          <h2>Final Team Tables</h2>
+          <p class="hint">This updates automatically after drag-and-drop team picking.</p>
+        </div>
+      </div>
+      <div id="finalTeams"></div>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = 'samuraiJapanElitesDotaTournamentPlayersCaptainOrderV1';
+
+    let players = [];
+
+    const validRoles = ['Carry', 'Midlaner', 'Offlaner', 'Soft Support', 'Hard Support', 'Flexible'];
+    const validRanks = ['Herald', 'Guardian', 'Crusader', 'Archon', 'Legend', 'Ancient', 'Divine', 'Immortal'];
+    const NEW_LINE = String.fromCharCode(10);
+    const CARRIAGE_RETURN = String.fromCharCode(13);
+
+    const playerForm = document.getElementById('playerForm');
+    const playersTableBody = document.getElementById('playersTableBody');
+    const playerPool = document.getElementById('playerPool');
+    const captainGrid = document.getElementById('captainGrid');
+    const finalTeams = document.getElementById('finalTeams');
+    const csvFileInput = document.getElementById('csvFileInput');
+
+    function createId() {
+      if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+        return window.crypto.randomUUID();
+      }
+
+      return 'player-' + Date.now() + '-' + Math.random().toString(16).slice(2);
+    }
+
+    function loadStoredPlayers() {
+      try {
+        const storedPlayers = localStorage.getItem(STORAGE_KEY);
+        players = storedPlayers ? JSON.parse(storedPlayers) : [];
+        if (!Array.isArray(players)) players = [];
+      } catch (error) {
+        players = [];
+      }
+    }
+
+    function savePlayers() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(players));
+    }
+
+    function getCaptainOrder(player) {
+      if (typeof player.captainOrder === 'number') return player.captainOrder;
+      return players.indexOf(player);
+    }
+
+    function getCaptains() {
+      return players
+        .filter(player => player.isCaptain)
+        .sort((a, b) => getCaptainOrder(a) - getCaptainOrder(b));
+    }
+
+    function normalizeCaptainOrder() {
+      getCaptains().forEach((captain, index) => {
+        captain.captainOrder = index;
+      });
+    }
+
+    function getPoolPlayers() {
+      return players.filter(player => !player.isCaptain && !player.teamCaptainId);
+    }
+
+    function getAssignedPlayers() {
+      return players.filter(player => !player.isCaptain && player.teamCaptainId);
+    }
+
+    function render() {
+      savePlayers();
+      renderStats();
+      renderPlayersTable();
+      renderDraftBoard();
+      renderFinalTeams();
+    }
+
+    function renderStats() {
+      document.getElementById('totalPlayers').textContent = players.length;
+      document.getElementById('totalCaptains').textContent = getCaptains().length;
+      document.getElementById('totalPool').textContent = getPoolPlayers().length;
+      document.getElementById('totalAssigned').textContent = getAssignedPlayers().length;
+    }
+
+    function renderPlayersTable() {
+      playersTableBody.innerHTML = '';
+
+      if (players.length === 0) {
+        playersTableBody.innerHTML = '<tr><td colspan="6" class="hint">No players registered yet.</td></tr>';
+        return;
+      }
+
+      players.forEach((player, index) => {
+        const row = document.createElement('tr');
+        const assignedCaptain = players.find(p => p.id === player.teamCaptainId);
+        const status = player.isCaptain
+          ? '<span class="badge captain-badge">Captain #' + (getCaptainOrder(player) + 1) + '</span>'
+          : assignedCaptain
+            ? '<span class="badge">Team: ' + escapeHTML(assignedCaptain.name) + '</span>'
+            : '<span class="badge">Player</span>';
+
+        row.innerHTML =
+          '<td>' + (index + 1) + '</td>' +
+          '<td><strong>' + escapeHTML(player.name) + '</strong></td>' +
+          '<td><span class="badge role-badge">' + escapeHTML(player.role) + '</span></td>' +
+          '<td><span class="badge rank-badge">' + escapeHTML(player.rank) + '</span></td>' +
+          '<td>' + status + '</td>' +
+          '<td class="player-action-cell">' +
+            '<div class="player-action-buttons">' +
+              '<button class="small ' + (player.isCaptain ? 'secondary' : 'success') + '" onclick="toggleCaptain(\'' + player.id + '\')">' +
+                (player.isCaptain ? 'Remove Captain' : 'Make Captain') +
+              '</button>' +
+              '<button class="small secondary" onclick="removePlayer(\'' + player.id + '\')">Delete</button>' +
+            '</div>' +
+          '</td>';
+
+        playersTableBody.appendChild(row);
+      });
+    }
+
+    function renderDraftBoard() {
+      renderPool();
+      renderCaptainColumns();
+      setupDropZones();
+    }
+
+    function renderPool() {
+      playerPool.innerHTML = '';
+      const poolPlayers = getPoolPlayers();
+
+      if (poolPlayers.length === 0) {
+        playerPool.innerHTML = '<div class="empty-state">No available players. Add players or drag assigned players back here.</div>';
+      }
+
+      poolPlayers.forEach(player => {
+        playerPool.appendChild(createPlayerCard(player));
+      });
+    }
+
+    function renderCaptainColumns() {
+      captainGrid.innerHTML = '';
+      const captains = getCaptains();
+
+      if (captains.length === 0) {
+        captainGrid.innerHTML = '<div class="empty-state">No captains yet. Tag players as captain from the Registered Players table.</div>';
+        return;
+      }
+
+      captains.forEach((captain, index) => {
+        const teamMembers = players.filter(player => player.teamCaptainId === captain.id && !player.isCaptain);
+        const column = document.createElement('div');
+        column.className = 'captain-column';
+        column.dataset.dropZone = captain.id;
+
+        column.innerHTML =
+          '<div class="captain-head">' +
+            '<div style="display: flex; justify-content: space-between; gap: 8px; align-items: center; margin-bottom: 8px;">' +
+              '<strong style="margin-bottom: 0;">#' + (index + 1) + ' ' + escapeHTML(captain.name) + '</strong>' +
+              '<div class="actions" style="gap: 6px; flex-wrap: nowrap;">' +
+                '<button class="small secondary" type="button" title="Move captain left" onclick="moveCaptain(\'' + captain.id + '\', -1)">Left</button>' +
+                '<button class="small secondary" type="button" title="Move captain right" onclick="moveCaptain(\'' + captain.id + '\', 1)">Right</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="player-meta">' +
+              '<span class="badge captain-badge">Captain</span>' +
+              '<span class="badge role-badge">' + escapeHTML(captain.role) + '</span>' +
+              '<span class="badge rank-badge">' + escapeHTML(captain.rank) + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<div class="team-list" id="team-' + captain.id + '"></div>';
+
+        const teamList = column.querySelector('.team-list');
+
+        if (teamMembers.length === 0) {
+          teamList.innerHTML = '<div class="empty-state">Drop players here.</div>';
+        }
+
+        teamMembers.forEach(player => {
+          teamList.appendChild(createPlayerCard(player));
+        });
+
+        captainGrid.appendChild(column);
+      });
+    }
+
+    function createPlayerCard(player) {
+      const card = document.createElement('div');
+      card.className = 'player-card';
+      card.draggable = true;
+      card.dataset.playerId = player.id;
+
+      card.innerHTML =
+        '<div class="player-name"><span>' + escapeHTML(player.name) + '</span></div>' +
+        '<div class="player-meta">' +
+          '<span class="badge role-badge">' + escapeHTML(player.role) + '</span>' +
+          '<span class="badge rank-badge">' + escapeHTML(player.rank) + '</span>' +
+        '</div>';
+
+      card.addEventListener('dragstart', event => {
+        event.dataTransfer.setData('text/plain', player.id);
+        card.classList.add('dragging');
+      });
+
+      card.addEventListener('dragend', () => {
+        card.classList.remove('dragging');
+      });
+
+      return card;
+    }
+
+    function setupDropZones() {
+      const dropZones = document.querySelectorAll('[data-drop-zone]');
+
+      dropZones.forEach(zone => {
+        zone.addEventListener('dragover', event => {
+          event.preventDefault();
+          zone.classList.add('drag-over');
+        });
+
+        zone.addEventListener('dragleave', () => {
+          zone.classList.remove('drag-over');
+        });
+
+        zone.addEventListener('drop', event => {
+          event.preventDefault();
+          zone.classList.remove('drag-over');
+
+          const playerId = event.dataTransfer.getData('text/plain');
+          const draggedPlayer = players.find(player => player.id === playerId);
+          const dropTarget = zone.dataset.dropZone;
+
+          if (!draggedPlayer) return;
+
+          if (draggedPlayer.isCaptain) {
+            alert('Captains cannot be dragged into another team. Remove captain status first if needed.');
+            return;
+          }
+
+          draggedPlayer.teamCaptainId = dropTarget === 'pool' ? null : dropTarget;
+          render();
+        });
+      });
+    }
+
+    function renderFinalTeams() {
+      const captains = getCaptains();
+      finalTeams.innerHTML = '';
+
+      if (captains.length === 0) {
+        finalTeams.innerHTML = '<div class="empty-state">Final teams will appear after captains are selected.</div>';
+        return;
+      }
+
+      captains.forEach((captain, captainIndex) => {
+        const teamMembers = players.filter(player => player.teamCaptainId === captain.id && !player.isCaptain);
+        const teamBlock = document.createElement('div');
+        teamBlock.style.marginBottom = '24px';
+
+        const memberRows = teamMembers.length
+          ? teamMembers.map((player, index) =>
+              '<tr>' +
+                '<td>' + (index + 1) + '</td>' +
+                '<td><strong>' + escapeHTML(player.name) + '</strong></td>' +
+                '<td><span class="badge role-badge">' + escapeHTML(player.role) + '</span></td>' +
+                '<td><span class="badge rank-badge">' + escapeHTML(player.rank) + '</span></td>' +
+              '</tr>'
+            ).join('')
+          : '<tr><td colspan="4" class="hint">No players assigned yet.</td></tr>';
+
+        teamBlock.innerHTML =
+          '<h3>#' + (captainIndex + 1) + ' ' + escapeHTML(captain.name) + '\'s Team</h3>' +
+          '<div class="table-wrap">' +
+            '<table>' +
+              '<thead><tr><th>#</th><th>Player</th><th>Role</th><th>Rank</th></tr></thead>' +
+              '<tbody>' +
+                '<tr>' +
+                  '<td>C</td>' +
+                  '<td><strong>' + escapeHTML(captain.name) + '</strong></td>' +
+                  '<td><span class="badge role-badge">' + escapeHTML(captain.role) + '</span></td>' +
+                  '<td><span class="captain-badge badge">Captain - ' + escapeHTML(captain.rank) + '</span></td>' +
+                '</tr>' +
+                memberRows +
+              '</tbody>' +
+            '</table>' +
+          '</div>';
+
+        finalTeams.appendChild(teamBlock);
+      });
+    }
+
+    function toggleCaptain(playerId) {
+      const player = players.find(player => player.id === playerId);
+      if (!player) return;
+
+      player.isCaptain = !player.isCaptain;
+
+      if (player.isCaptain) {
+        player.teamCaptainId = null;
+        player.captainOrder = getCaptains().length;
+      } else {
+        delete player.captainOrder;
+
+        players.forEach(p => {
+          if (p.teamCaptainId === player.id) p.teamCaptainId = null;
+        });
+      }
+
+      normalizeCaptainOrder();
+      render();
+    }
+
+    function moveCaptain(playerId, direction) {
+      const captains = getCaptains();
+      const currentIndex = captains.findIndex(captain => captain.id === playerId);
+      if (currentIndex === -1) return;
+
+      const nextIndex = currentIndex + direction;
+      if (nextIndex < 0 || nextIndex >= captains.length) return;
+
+      const currentCaptain = captains[currentIndex];
+      captains[currentIndex] = captains[nextIndex];
+      captains[nextIndex] = currentCaptain;
+
+      captains.forEach((captain, index) => {
+        captain.captainOrder = index;
+      });
+
+      render();
+    }
+
+    function shuffleCaptainsOrder() {
+      const captains = getCaptains();
+
+      if (captains.length < 2) {
+        alert('Add at least 2 captains before shuffling.');
+        return;
+      }
+
+      for (let i = captains.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        const temp = captains[i];
+        captains[i] = captains[randomIndex];
+        captains[randomIndex] = temp;
+      }
+
+      captains.forEach((captain, index) => {
+        captain.captainOrder = index;
+      });
+
+      render();
+    }
+
+    function removePlayer(playerId) {
+      const player = players.find(player => player.id === playerId);
+      if (!player) return;
+
+      if (!confirm('Delete ' + player.name + '? This will also remove team assignments connected to this player.')) return;
+
+      players = players
+        .filter(player => player.id !== playerId)
+        .map(player => player.teamCaptainId === playerId ? { ...player, teamCaptainId: null } : player);
+
+      normalizeCaptainOrder();
+      render();
+    }
+
+    function resetTeams() {
+      players = players.map(player => ({ ...player, teamCaptainId: null }));
+      render();
+    }
+
+    function clearAll() {
+      if (!confirm('Clear all registered players and teams?')) return;
+      players = [];
+      render();
+    }
+
+    function loadSample() {
+      players = [
+        { id: createId(), name: 'tuts', role: 'Midlaner', rank: 'Crusader', isCaptain: true, captainOrder: 0, teamCaptainId: null },
+        { id: createId(), name: 'pimp', role: 'Carry', rank: 'Herald', isCaptain: true, captainOrder: 1, teamCaptainId: null },
+        { id: createId(), name: 'lapux', role: 'Carry', rank: 'Guardian', isCaptain: false, teamCaptainId: null },
+        { id: createId(), name: 'laxus', role: 'Carry', rank: 'Archon', isCaptain: false, teamCaptainId: null },
+        { id: createId(), name: 'ronin', role: 'Offlaner', rank: 'Legend', isCaptain: false, teamCaptainId: null },
+        { id: createId(), name: 'shinobi', role: 'Soft Support', rank: 'Ancient', isCaptain: false, teamCaptainId: null },
+        { id: createId(), name: 'katana', role: 'Hard Support', rank: 'Divine', isCaptain: false, teamCaptainId: null },
+        { id: createId(), name: 'sensei', role: 'Flexible', rank: 'Immortal', isCaptain: false, teamCaptainId: null }
+      ];
+
+      normalizeCaptainOrder();
+      render();
+    }
+
+    function downloadCsv(filename, csvContent) {
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(blob, filename);
+        return;
+      }
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      link.style.display = 'none';
+      document.body.appendChild(link);
+      link.click();
+
+      setTimeout(() => {
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, 100);
+    }
+
+    function csvEscape(value) {
+      const text = String(value ?? '');
+      if (text.includes(',') || text.includes('"') || text.includes(NEW_LINE) || text.includes(CARRIAGE_RETURN)) {
+        return '"' + text.replaceAll('"', '""') + '"';
+      }
+      return text;
+    }
+
+    function downloadTemplate() {
+      const csv = [
+        'name,role,rank,isCaptain,captainOrder',
+        'tuts,Midlaner,Crusader,true,1',
+        'pimp,Carry,Herald,true,2',
+        'laxus,Carry,Archon,false,',
+        'lapux,Carry,Guardian,false,'
+      ].join(NEW_LINE);
+
+      downloadCsv('samurai-japan-elites-player-template.csv', csv);
+    }
+
+    function exportPlayersCsv() {
+      const header = 'name,role,rank,isCaptain,teamCaptain,captainOrder';
+      const rows = players.map(player => {
+        const captain = players.find(p => p.id === player.teamCaptainId);
+        return [
+          csvEscape(player.name),
+          csvEscape(player.role),
+          csvEscape(player.rank),
+          csvEscape(player.isCaptain ? 'true' : 'false'),
+          csvEscape(captain ? captain.name : ''),
+          csvEscape(player.isCaptain ? getCaptainOrder(player) + 1 : '')
+        ].join(',');
+      });
+
+      downloadCsv('samurai-japan-elites-current-players.csv', [header, ...rows].join(NEW_LINE));
+    }
+
+    function parseCsv(text) {
+      const rows = [];
+      let row = [];
+      let cell = '';
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"' && insideQuotes && nextChar === '"') {
+          cell += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === ',' && !insideQuotes) {
+          row.push(cell.trim());
+          cell = '';
+        } else if ((char === NEW_LINE || char === CARRIAGE_RETURN) && !insideQuotes) {
+          if (char === CARRIAGE_RETURN && nextChar === NEW_LINE) i++;
+          row.push(cell.trim());
+          if (row.some(value => value !== '')) rows.push(row);
+          row = [];
+          cell = '';
+        } else {
+          cell += char;
+        }
+      }
+
+      row.push(cell.trim());
+      if (row.some(value => value !== '')) rows.push(row);
+      return rows;
+    }
+
+    function importPlayersFromCsv(file) {
+      const reader = new FileReader();
+
+      reader.onload = event => {
+        try {
+          const text = event.target.result;
+          const rows = parseCsv(text);
+
+          if (rows.length < 2) {
+            alert('CSV is empty or missing player rows.');
+            return;
+          }
+
+          const headers = rows[0].map(header => header.trim().toLowerCase());
+          const nameIndex = headers.indexOf('name');
+          const roleIndex = headers.indexOf('role');
+          const rankIndex = headers.indexOf('rank');
+          const captainIndex = headers.indexOf('iscaptain');
+          const captainOrderIndex = headers.indexOf('captainorder');
+
+          if (nameIndex === -1 || roleIndex === -1 || rankIndex === -1) {
+            alert('CSV must include name, role, and rank columns. Optional columns: isCaptain, captainOrder.');
+            return;
+          }
+
+          const importedPlayers = [];
+          const skippedRows = [];
+
+          rows.slice(1).forEach((row, index) => {
+            const name = (row[nameIndex] || '').trim();
+            const role = normalizeRole(row[roleIndex] || 'Flexible');
+            const rank = normalizeRank(row[rankIndex] || 'Herald');
+            const isCaptain = captainIndex !== -1 ? parseBoolean(row[captainIndex]) : false;
+            const captainOrder = captainOrderIndex !== -1 ? Number(row[captainOrderIndex]) - 1 : undefined;
+
+            if (!name) {
+              skippedRows.push(index + 2);
+              return;
+            }
+
+            importedPlayers.push({
+              id: createId(),
+              name,
+              role,
+              rank,
+              isCaptain,
+              captainOrder: isCaptain && Number.isFinite(captainOrder) ? captainOrder : undefined,
+              teamCaptainId: null
+            });
+          });
+
+          if (importedPlayers.length === 0) {
+            alert('No valid player rows found.');
+            return;
+          }
+
+          const replaceExisting = confirm('Import ' + importedPlayers.length + ' players? Click OK to replace current players, or Cancel to add them to the existing list.');
+          players = replaceExisting ? importedPlayers : [...players, ...importedPlayers];
+
+          normalizeCaptainOrder();
+          render();
+
+          if (skippedRows.length) {
+            alert('Import complete. Skipped rows without names: ' + skippedRows.join(', '));
+          } else {
+            alert('Import complete.');
+          }
+        } catch (error) {
+          alert('Import failed. Please check your CSV format.');
+          console.error(error);
+        } finally {
+          csvFileInput.value = '';
+        }
+      };
+
+      reader.onerror = () => {
+        alert('Could not read the CSV file.');
+        csvFileInput.value = '';
+      };
+
+      reader.readAsText(file);
+    }
+
+    function normalizeRole(value) {
+      const cleanValue = String(value).trim().toLowerCase();
+      const foundRole = validRoles.find(role => role.toLowerCase() === cleanValue);
+      return foundRole || 'Flexible';
+    }
+
+    function normalizeRank(value) {
+      const cleanValue = String(value).trim().toLowerCase();
+      const foundRank = validRanks.find(rank => rank.toLowerCase() === cleanValue);
+      return foundRank || 'Herald';
+    }
+
+    function parseBoolean(value) {
+      const cleanValue = String(value).trim().toLowerCase();
+      return ['true', 'yes', 'y', '1', 'captain'].includes(cleanValue);
+    }
+
+    function escapeHTML(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    playerForm.addEventListener('submit', event => {
+      event.preventDefault();
+
+      const name = document.getElementById('playerName').value.trim();
+      const role = document.getElementById('playerRole').value;
+      const rank = document.getElementById('playerRank').value;
+      const isCaptain = document.getElementById('isCaptain').value === 'true';
+
+      if (!name) {
+        alert('Please enter a player name.');
+        return;
+      }
+
+      players.push({
+        id: createId(),
+        name,
+        role,
+        rank,
+        isCaptain,
+        captainOrder: isCaptain ? getCaptains().length : undefined,
+        teamCaptainId: null
+      });
+
+      normalizeCaptainOrder();
+      playerForm.reset();
+      render();
+    });
+
+    csvFileInput.addEventListener('change', event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      importPlayersFromCsv(file);
+    });
+
+    document.getElementById('downloadTemplateBtn').addEventListener('click', downloadTemplate);
+    document.getElementById('importCsvBtn').addEventListener('click', () => csvFileInput.click());
+    document.getElementById('exportCsvBtn').addEventListener('click', exportPlayersCsv);
+    document.getElementById('loadSampleBtn').addEventListener('click', loadSample);
+    document.getElementById('resetTeamsBtn').addEventListener('click', resetTeams);
+    document.getElementById('clearAllBtn').addEventListener('click', clearAll);
+
+    const shuffleCaptainsBtn = document.getElementById('shuffleCaptainsBtn');
+    if (shuffleCaptainsBtn) {
+      shuffleCaptainsBtn.addEventListener('click', shuffleCaptainsOrder);
+    }
+
+    loadStoredPlayers();
+    normalizeCaptainOrder();
+    render();
+  </script>
+</body>
+</html>
